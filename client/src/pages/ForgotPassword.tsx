@@ -53,7 +53,12 @@ export default function ForgotPassword() {
             />
           </div>
 
-          <Button className="w-full" size="lg" onClick={handleRecover} disabled={loading}>
+          <Button
+            className="w-full"
+            size="lg"
+            onClick={handleRecover}
+            disabled={loading}
+          >
             Recuperar senha
           </Button>
 

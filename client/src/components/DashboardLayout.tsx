@@ -55,16 +55,26 @@ import { Button } from "./ui/button";
 const menuGroups = [
   {
     label: "Principal",
-    items: [
-      { icon: LayoutDashboard, label: "Dashboard", path: "/" },
-    ],
+    items: [{ icon: LayoutDashboard, label: "Dashboard", path: "/" }],
   },
   {
     label: "Financeiro",
     items: [
-      { icon: CreditCard, label: "Contas a Pagar", path: "/financeiro/contas-pagar" },
-      { icon: TrendingUp, label: "Contas a Receber", path: "/financeiro/contas-receber" },
-      { icon: Wallet, label: "Centro de Custo", path: "/financeiro/centro-custo" },
+      {
+        icon: CreditCard,
+        label: "Contas a Pagar",
+        path: "/financeiro/contas-pagar",
+      },
+      {
+        icon: TrendingUp,
+        label: "Contas a Receber",
+        path: "/financeiro/contas-receber",
+      },
+      {
+        icon: Wallet,
+        label: "Centro de Custo",
+        path: "/financeiro/centro-custo",
+      },
     ],
   },
   {
@@ -86,7 +96,11 @@ const menuGroups = [
     label: "Projetos",
     items: [
       { icon: HardHat, label: "Engenharia / Obras", path: "/projetos" },
-      { icon: FolderKanban, label: "Kanban de Tarefas", path: "/projetos/kanban" },
+      {
+        icon: FolderKanban,
+        label: "Kanban de Tarefas",
+        path: "/projetos/kanban",
+      },
     ],
   },
   {
@@ -99,9 +113,7 @@ const menuGroups = [
   {
     label: "Administração",
     adminOnly: true,
-    items: [
-      { icon: ShieldCheck, label: "Painel Admin", path: "/admin" },
-    ],
+    items: [{ icon: ShieldCheck, label: "Painel Admin", path: "/admin" }],
   },
 ];
 
@@ -110,7 +122,11 @@ const DEFAULT_WIDTH = 260;
 const MIN_WIDTH = 200;
 const MAX_WIDTH = 380;
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [sidebarWidth, setSidebarWidth] = useState(() => {
     const saved = localStorage.getItem(SIDEBAR_WIDTH_KEY);
     return saved ? parseInt(saved, 10) : DEFAULT_WIDTH;
@@ -133,7 +149,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
             <div className="text-center">
               <h1 className="text-2xl font-bold tracking-tight">Grupo GAB</h1>
-              <p className="text-sm text-muted-foreground mt-1">Sistema de Gestão Operacional</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Sistema de Gestão Operacional
+              </p>
             </div>
           </div>
           <p className="text-center text-sm text-muted-foreground">
@@ -163,7 +181,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <SidebarProvider style={{ "--sidebar-width": `${sidebarWidth}px` } as CSSProperties}>
+    <SidebarProvider
+      style={{ "--sidebar-width": `${sidebarWidth}px` } as CSSProperties}
+    >
       <DashboardLayoutContent setSidebarWidth={setSidebarWidth}>
         {children}
       </DashboardLayoutContent>
@@ -186,7 +206,9 @@ function DashboardLayoutContent({
   const sidebarRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 
-  const visibleGroups = menuGroups.filter(g => !(g as any).adminOnly || user?.role === "admin");
+  const visibleGroups = menuGroups.filter(
+    g => !(g as any).adminOnly || user?.role === "admin"
+  );
   const allItems = visibleGroups.flatMap(g => g.items);
   const activeItem = allItems.find(item => item.path === location);
 
@@ -199,7 +221,8 @@ function DashboardLayoutContent({
       if (!isResizing) return;
       const left = sidebarRef.current?.getBoundingClientRect().left ?? 0;
       const newWidth = e.clientX - left;
-      if (newWidth >= MIN_WIDTH && newWidth <= MAX_WIDTH) setSidebarWidth(newWidth);
+      if (newWidth >= MIN_WIDTH && newWidth <= MAX_WIDTH)
+        setSidebarWidth(newWidth);
     };
     const handleMouseUp = () => setIsResizing(false);
     if (isResizing) {
@@ -217,13 +240,22 @@ function DashboardLayoutContent({
   }, [isResizing, setSidebarWidth]);
 
   const initials = user?.name
-    ? user.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("").toUpperCase()
+    ? user.name
+        .split(" ")
+        .map((n: string) => n[0])
+        .slice(0, 2)
+        .join("")
+        .toUpperCase()
     : "U";
 
   return (
     <>
       <div className="relative" ref={sidebarRef}>
-        <Sidebar collapsible="icon" className="border-r border-sidebar-border" disableTransition={isResizing}>
+        <Sidebar
+          collapsible="icon"
+          className="border-r border-sidebar-border"
+          disableTransition={isResizing}
+        >
           {/* Header */}
           <SidebarHeader className="h-16 border-b border-sidebar-border">
             <div className="flex items-center gap-3 px-2 h-full">
@@ -237,11 +269,17 @@ function DashboardLayoutContent({
               {!isCollapsed && (
                 <div className="flex items-center gap-2 min-w-0">
                   <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center shrink-0">
-                    <span className="text-xs font-bold text-primary-foreground">G</span>
+                    <span className="text-xs font-bold text-primary-foreground">
+                      G
+                    </span>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-bold truncate leading-none">Grupo GAB</p>
-                    <p className="text-[10px] text-muted-foreground truncate mt-0.5">Gestão Operacional</p>
+                    <p className="text-sm font-bold truncate leading-none">
+                      Grupo GAB
+                    </p>
+                    <p className="text-[10px] text-muted-foreground truncate mt-0.5">
+                      Gestão Operacional
+                    </p>
                   </div>
                 </div>
               )}
@@ -259,7 +297,8 @@ function DashboardLayoutContent({
                 )}
                 <SidebarMenu className="px-2">
                   {group.items.map(item => {
-                    const isActive = location === item.path ||
+                    const isActive =
+                      location === item.path ||
                       (item.path !== "/" && location.startsWith(item.path));
                     return (
                       <SidebarMenuItem key={item.path}>
@@ -273,7 +312,9 @@ function DashboardLayoutContent({
                               : "text-sidebar-foreground/70 hover:text-sidebar-foreground"
                           }`}
                         >
-                          <item.icon className={`h-4 w-4 shrink-0 ${isActive ? "text-primary" : ""}`} />
+                          <item.icon
+                            className={`h-4 w-4 shrink-0 ${isActive ? "text-primary" : ""}`}
+                          />
                           <span>{item.label}</span>
                           {isActive && !isCollapsed && (
                             <ChevronRight className="ml-auto h-3 w-3 text-primary/60" />
@@ -302,8 +343,12 @@ function DashboardLayoutContent({
                   </Avatar>
                   {!isCollapsed && (
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate leading-none">{user?.name || "Usuário"}</p>
-                      <p className="text-xs text-muted-foreground truncate mt-1">{user?.email || ""}</p>
+                      <p className="text-sm font-medium truncate leading-none">
+                        {user?.name || "Usuário"}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate mt-1">
+                        {user?.email || ""}
+                      </p>
                     </div>
                   )}
                 </button>
@@ -319,7 +364,10 @@ function DashboardLayoutContent({
                   Configurações
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={logout} className="text-destructive focus:text-destructive">
+                <DropdownMenuItem
+                  onClick={logout}
+                  className="text-destructive focus:text-destructive"
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   Sair
                 </DropdownMenuItem>
@@ -344,9 +392,13 @@ function DashboardLayoutContent({
           <div className="flex border-b h-14 items-center justify-between bg-background/95 px-3 backdrop-blur sticky top-0 z-40">
             <div className="flex items-center gap-2">
               <SidebarTrigger className="h-9 w-9 rounded-lg" />
-              <span className="font-medium text-sm">{activeItem?.label ?? "Menu"}</span>
+              <span className="font-medium text-sm">
+                {activeItem?.label ?? "Menu"}
+              </span>
             </div>
-            <Badge variant="outline" className="text-xs">GAB</Badge>
+            <Badge variant="outline" className="text-xs">
+              GAB
+            </Badge>
           </div>
         )}
         <main className="flex-1 p-6 min-h-screen">{children}</main>

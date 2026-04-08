@@ -125,7 +125,9 @@ export default function Login() {
               <Tabs defaultValue="entrar" className="gap-4">
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="entrar">Entrar</TabsTrigger>
-                  <TabsTrigger value="recuperar">Esqueci minha senha</TabsTrigger>
+                  <TabsTrigger value="recuperar">
+                    Esqueci minha senha
+                  </TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="entrar" className="space-y-4 pt-2">
@@ -184,8 +186,8 @@ export default function Login() {
                   <Separator />
 
                   <p className="text-xs text-muted-foreground">
-                    Você será redirecionado ao portal de identidade para concluir
-                    a recuperação com segurança.
+                    Você será redirecionado ao portal de identidade para
+                    concluir a recuperação com segurança.
                   </p>
                 </TabsContent>
               </Tabs>

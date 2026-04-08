@@ -194,9 +194,7 @@
       "compositePrimaryKeys": {
         "accounts_payable_id": {
           "name": "accounts_payable_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -392,9 +390,7 @@
       "compositePrimaryKeys": {
         "accounts_receivable_id": {
           "name": "accounts_receivable_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -513,9 +509,7 @@
       "compositePrimaryKeys": {
         "agenda_events_id": {
           "name": "agenda_events_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -576,9 +570,7 @@
       "compositePrimaryKeys": {
         "chat_conversations_id": {
           "name": "chat_conversations_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -657,9 +649,7 @@
       "compositePrimaryKeys": {
         "chat_messages_id": {
           "name": "chat_messages_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -703,9 +693,7 @@
       "compositePrimaryKeys": {
         "chat_participants_id": {
           "name": "chat_participants_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -830,9 +818,7 @@
       "compositePrimaryKeys": {
         "clients_id": {
           "name": "clients_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -915,9 +901,7 @@
       "compositePrimaryKeys": {
         "cost_centers_id": {
           "name": "cost_centers_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -996,9 +980,7 @@
       "compositePrimaryKeys": {
         "crm_activities_id": {
           "name": "crm_activities_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1130,9 +1112,7 @@
       "compositePrimaryKeys": {
         "crm_leads_id": {
           "name": "crm_leads_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1247,9 +1227,7 @@
       "compositePrimaryKeys": {
         "documents_id": {
           "name": "documents_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1389,9 +1367,7 @@
       "compositePrimaryKeys": {
         "project_tasks_id": {
           "name": "project_tasks_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1537,9 +1513,7 @@
       "compositePrimaryKeys": {
         "projects_id": {
           "name": "projects_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1712,9 +1686,7 @@
       "compositePrimaryKeys": {
         "purchase_orders_id": {
           "name": "purchase_orders_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1811,17 +1783,13 @@
       "compositePrimaryKeys": {
         "users_id": {
           "name": "users_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "users_openId_unique": {
           "name": "users_openId_unique",
-          "columns": [
-            "openId"
-          ]
+          "columns": ["openId"]
         }
       },
       "checkConstraint": {}

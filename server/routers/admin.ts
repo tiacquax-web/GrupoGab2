@@ -8,7 +8,10 @@ import { TRPCError } from "@trpc/server";
 // Middleware that ensures only admins can call these procedures
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
   if (ctx.user.role !== "admin") {
-    throw new TRPCError({ code: "FORBIDDEN", message: "Acesso restrito a administradores." });
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Acesso restrito a administradores.",
+    });
   }
   return next({ ctx });
 });
@@ -17,12 +20,22 @@ export const adminRouter = router({
   // ─── SYSTEM STATS ────────────────────────────────────────────────────────────
   stats: adminProcedure.query(async () => {
     const db = await getDb();
-    if (!db) return { totalUsers: 0, activeUsers: 0, adminUsers: 0, totalLogs: 0, recentActions: 0 };
+    if (!db)
+      return {
+        totalUsers: 0,
+        activeUsers: 0,
+        adminUsers: 0,
+        totalLogs: 0,
+        recentActions: 0,
+      };
 
     const allUsers = await db.select().from(users);
     const totalLogs = await db.select({ c: count() }).from(activityLogs);
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-    const recentLogs = await db.select({ c: count() }).from(activityLogs).where(gte(activityLogs.createdAt, oneDayAgo));
+    const recentLogs = await db
+      .select({ c: count() })
+      .from(activityLogs)
+      .where(gte(activityLogs.createdAt, oneDayAgo));
 
     return {
       totalUsers: allUsers.length,
@@ -42,10 +55,11 @@ export const adminRouter = router({
       let rows = await db.select().from(users).orderBy(desc(users.createdAt));
       if (input?.search) {
         const s = input.search.toLowerCase();
-        rows = rows.filter(u =>
-          u.name?.toLowerCase().includes(s) ||
-          u.email?.toLowerCase().includes(s) ||
-          u.openId?.toLowerCase().includes(s)
+        rows = rows.filter(
+          u =>
+            u.name?.toLowerCase().includes(s) ||
+            u.email?.toLowerCase().includes(s) ||
+            u.openId?.toLowerCase().includes(s)
         );
       }
       return rows;
@@ -55,11 +69,17 @@ export const adminRouter = router({
     .input(z.object({ userId: z.number(), role: z.enum(["user", "admin"]) }))
     .mutation(async ({ input, ctx }) => {
       if (input.userId === ctx.user.id) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "Você não pode alterar sua própria role." });
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Você não pode alterar sua própria role.",
+        });
       }
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-      await db.update(users).set({ role: input.role }).where(eq(users.id, input.userId));
+      await db
+        .update(users)
+        .set({ role: input.role })
+        .where(eq(users.id, input.userId));
 
       // Log the action
       await db.insert(activityLogs).values({
@@ -81,7 +101,10 @@ export const adminRouter = router({
     .input(z.object({ userId: z.number() }))
     .mutation(async ({ input, ctx }) => {
       if (input.userId === ctx.user.id) {
-        throw new TRPCError({ code: "BAD_REQUEST", message: "Você não pode excluir sua própria conta." });
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Você não pode excluir sua própria conta.",
+        });
       }
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
@@ -108,24 +131,36 @@ export const adminRouter = router({
     .query(async ({ input }) => {
       const db = await getDb();
       if (!db) return [];
-      return db.select().from(userPermissions).where(eq(userPermissions.userId, input.userId));
+      return db
+        .select()
+        .from(userPermissions)
+        .where(eq(userPermissions.userId, input.userId));
     }),
 
   setPermission: adminProcedure
-    .input(z.object({
-      userId: z.number(),
-      module: z.string(),
-      canView: z.boolean(),
-      canCreate: z.boolean(),
-      canEdit: z.boolean(),
-      canDelete: z.boolean(),
-    }))
+    .input(
+      z.object({
+        userId: z.number(),
+        module: z.string(),
+        canView: z.boolean(),
+        canCreate: z.boolean(),
+        canEdit: z.boolean(),
+        canDelete: z.boolean(),
+      })
+    )
     .mutation(async ({ input, ctx }) => {
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
-      const existing = await db.select().from(userPermissions)
-        .where(and(eq(userPermissions.userId, input.userId), eq(userPermissions.module, input.module)))
+      const existing = await db
+        .select()
+        .from(userPermissions)
+        .where(
+          and(
+            eq(userPermissions.userId, input.userId),
+            eq(userPermissions.module, input.module)
+          )
+        )
         .limit(1);
 
       const permData = {
@@ -138,7 +173,10 @@ export const adminRouter = router({
       };
 
       if (existing.length > 0) {
-        await db.update(userPermissions).set(permData).where(eq(userPermissions.id, existing[0].id));
+        await db
+          .update(userPermissions)
+          .set(permData)
+          .where(eq(userPermissions.id, existing[0].id));
       } else {
         await db.insert(userPermissions).values(permData);
       }
@@ -160,20 +198,28 @@ export const adminRouter = router({
 
   // ─── ACTIVITY LOGS ───────────────────────────────────────────────────────────
   listLogs: adminProcedure
-    .input(z.object({
-      page: z.number().default(1),
-      limit: z.number().default(50),
-      search: z.string().optional(),
-      module: z.string().optional(),
-      status: z.enum(["success", "error", "warning", "all"]).optional(),
-      dateFrom: z.string().optional(),
-      dateTo: z.string().optional(),
-    }).optional())
+    .input(
+      z
+        .object({
+          page: z.number().default(1),
+          limit: z.number().default(50),
+          search: z.string().optional(),
+          module: z.string().optional(),
+          status: z.enum(["success", "error", "warning", "all"]).optional(),
+          dateFrom: z.string().optional(),
+          dateTo: z.string().optional(),
+        })
+        .optional()
+    )
     .query(async ({ input }) => {
       const db = await getDb();
       if (!db) return { logs: [], total: 0 };
 
-      let rows = await db.select().from(activityLogs).orderBy(desc(activityLogs.createdAt)).limit(500);
+      let rows = await db
+        .select()
+        .from(activityLogs)
+        .orderBy(desc(activityLogs.createdAt))
+        .limit(500);
 
       if (input?.module && input.module !== "all") {
         rows = rows.filter(r => r.module === input.module);
@@ -183,10 +229,11 @@ export const adminRouter = router({
       }
       if (input?.search) {
         const s = input.search.toLowerCase();
-        rows = rows.filter(r =>
-          r.description?.toLowerCase().includes(s) ||
-          r.userName?.toLowerCase().includes(s) ||
-          r.action?.toLowerCase().includes(s)
+        rows = rows.filter(
+          r =>
+            r.description?.toLowerCase().includes(s) ||
+            r.userName?.toLowerCase().includes(s) ||
+            r.action?.toLowerCase().includes(s)
         );
       }
       if (input?.dateFrom) {
@@ -208,15 +255,17 @@ export const adminRouter = router({
 
   // ─── LOG WRITER (called from other routers) ──────────────────────────────────
   writeLog: protectedProcedure
-    .input(z.object({
-      action: z.string(),
-      module: z.string(),
-      description: z.string().optional(),
-      entityType: z.string().optional(),
-      entityId: z.number().optional(),
-      status: z.enum(["success", "error", "warning"]).default("success"),
-      metadata: z.string().optional(),
-    }))
+    .input(
+      z.object({
+        action: z.string(),
+        module: z.string(),
+        description: z.string().optional(),
+        entityType: z.string().optional(),
+        entityId: z.number().optional(),
+        status: z.enum(["success", "error", "warning"]).default("success"),
+        metadata: z.string().optional(),
+      })
+    )
     .mutation(async ({ input, ctx }) => {
       const db = await getDb();
       if (!db) return { success: false };
@@ -240,7 +289,11 @@ export const adminRouter = router({
     const db = await getDb();
     if (!db) return { byModule: [], byStatus: [], byDay: [] };
 
-    const logs = await db.select().from(activityLogs).orderBy(desc(activityLogs.createdAt)).limit(1000);
+    const logs = await db
+      .select()
+      .from(activityLogs)
+      .orderBy(desc(activityLogs.createdAt))
+      .limit(1000);
 
     // Group by module
     const moduleMap: Record<string, number> = {};
@@ -255,9 +308,17 @@ export const adminRouter = router({
     });
 
     return {
-      byModule: Object.entries(moduleMap).map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count),
-      byStatus: Object.entries(statusMap).map(([name, count]) => ({ name, count })),
-      byDay: Object.entries(dayMap).slice(0, 7).map(([date, count]) => ({ date, count })).reverse(),
+      byModule: Object.entries(moduleMap)
+        .map(([name, count]) => ({ name, count }))
+        .sort((a, b) => b.count - a.count),
+      byStatus: Object.entries(statusMap).map(([name, count]) => ({
+        name,
+        count,
+      })),
+      byDay: Object.entries(dayMap)
+        .slice(0, 7)
+        .map(([date, count]) => ({ date, count }))
+        .reverse(),
     };
   }),
 });

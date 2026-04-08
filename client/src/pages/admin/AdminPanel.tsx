@@ -5,8 +5,24 @@ import { Redirect, useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, ShieldCheck, Activity, BarChart3, AlertTriangle, CheckCircle2, Clock } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import {
+  Users,
+  ShieldCheck,
+  Activity,
+  BarChart3,
+  AlertTriangle,
+  CheckCircle2,
+  Clock,
+} from "lucide-react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+} from "recharts";
 import AdminUsers from "./AdminUsers";
 import AdminPermissions from "./AdminPermissions";
 import AdminLogs from "./AdminLogs";
@@ -15,7 +31,12 @@ export default function AdminPanel() {
   const { user, loading } = useAuth();
   const [, navigate] = useLocation();
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+      </div>
+    );
   if (!user || user.role !== "admin") return <Redirect to="/" />;
 
   return <AdminPanelContent />;
@@ -31,7 +52,16 @@ function AdminPanelContent() {
     warning: "#f59e0b",
   };
 
-  const moduleColors = ["#3b82f6", "#8b5cf6", "#f59e0b", "#10b981", "#ef4444", "#06b6d4", "#f97316", "#84cc16"];
+  const moduleColors = [
+    "#3b82f6",
+    "#8b5cf6",
+    "#f59e0b",
+    "#10b981",
+    "#ef4444",
+    "#06b6d4",
+    "#f97316",
+    "#84cc16",
+  ];
 
   return (
     <div className="space-y-6">
@@ -42,7 +72,9 @@ function AdminPanelContent() {
             <ShieldCheck className="h-6 w-6 text-primary" />
             Painel de Administração
           </h1>
-          <p className="text-muted-foreground text-sm mt-1">Gerencie usuários, permissões e monitore atividades do sistema</p>
+          <p className="text-muted-foreground text-sm mt-1">
+            Gerencie usuários, permissões e monitore atividades do sistema
+          </p>
         </div>
         <Badge className="bg-primary/15 text-primary border border-primary/30 px-3 py-1">
           <ShieldCheck className="h-3.5 w-3.5 mr-1.5" />
@@ -55,20 +87,26 @@ function AdminPanelContent() {
         <Card className="border-border">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-xs text-muted-foreground font-medium">Total Usuários</p>
+              <p className="text-xs text-muted-foreground font-medium">
+                Total Usuários
+              </p>
               <div className="h-8 w-8 rounded-lg bg-blue-500/15 flex items-center justify-center">
                 <Users className="h-4 w-4 text-blue-400" />
               </div>
             </div>
             <p className="text-2xl font-bold">{stats?.totalUsers ?? 0}</p>
-            <p className="text-xs text-muted-foreground mt-1">{stats?.adminUsers ?? 0} admins</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              {stats?.adminUsers ?? 0} admins
+            </p>
           </CardContent>
         </Card>
 
         <Card className="border-border">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-xs text-muted-foreground font-medium">Usuários Comuns</p>
+              <p className="text-xs text-muted-foreground font-medium">
+                Usuários Comuns
+              </p>
               <div className="h-8 w-8 rounded-lg bg-violet-500/15 flex items-center justify-center">
                 <Users className="h-4 w-4 text-violet-400" />
               </div>
@@ -81,39 +119,55 @@ function AdminPanelContent() {
         <Card className="border-border">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-xs text-muted-foreground font-medium">Total de Logs</p>
+              <p className="text-xs text-muted-foreground font-medium">
+                Total de Logs
+              </p>
               <div className="h-8 w-8 rounded-lg bg-emerald-500/15 flex items-center justify-center">
                 <Activity className="h-4 w-4 text-emerald-400" />
               </div>
             </div>
-            <p className="text-2xl font-bold">{Number(stats?.totalLogs ?? 0).toLocaleString("pt-BR")}</p>
-            <p className="text-xs text-muted-foreground mt-1">ações registradas</p>
+            <p className="text-2xl font-bold">
+              {Number(stats?.totalLogs ?? 0).toLocaleString("pt-BR")}
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              ações registradas
+            </p>
           </CardContent>
         </Card>
 
         <Card className="border-border">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-xs text-muted-foreground font-medium">Ações (24h)</p>
+              <p className="text-xs text-muted-foreground font-medium">
+                Ações (24h)
+              </p>
               <div className="h-8 w-8 rounded-lg bg-amber-500/15 flex items-center justify-center">
                 <Clock className="h-4 w-4 text-amber-400" />
               </div>
             </div>
-            <p className="text-2xl font-bold">{Number(stats?.recentActions ?? 0).toLocaleString("pt-BR")}</p>
-            <p className="text-xs text-muted-foreground mt-1">últimas 24 horas</p>
+            <p className="text-2xl font-bold">
+              {Number(stats?.recentActions ?? 0).toLocaleString("pt-BR")}
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              últimas 24 horas
+            </p>
           </CardContent>
         </Card>
 
         <Card className="border-border">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-xs text-muted-foreground font-medium">Status Sistema</p>
+              <p className="text-xs text-muted-foreground font-medium">
+                Status Sistema
+              </p>
               <div className="h-8 w-8 rounded-lg bg-emerald-500/15 flex items-center justify-center">
                 <CheckCircle2 className="h-4 w-4 text-emerald-400" />
               </div>
             </div>
             <p className="text-sm font-bold text-emerald-400">Operacional</p>
-            <p className="text-xs text-muted-foreground mt-1">todos os módulos</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              todos os módulos
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -139,7 +193,12 @@ function AdminPanelContent() {
                   <XAxis dataKey="date" tick={{ fontSize: 10 }} />
                   <YAxis tick={{ fontSize: 10 }} />
                   <Tooltip />
-                  <Bar dataKey="count" fill="#3b82f6" radius={[4, 4, 0, 0]} name="Ações" />
+                  <Bar
+                    dataKey="count"
+                    fill="#3b82f6"
+                    radius={[4, 4, 0, 0]}
+                    name="Ações"
+                  />
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -156,15 +215,28 @@ function AdminPanelContent() {
           </CardHeader>
           <CardContent className="space-y-3">
             {(logStats?.byStatus ?? []).length === 0 ? (
-              <p className="text-sm text-muted-foreground text-center py-8">Sem dados ainda</p>
+              <p className="text-sm text-muted-foreground text-center py-8">
+                Sem dados ainda
+              </p>
             ) : (
               (logStats?.byStatus ?? []).map((s: any) => (
                 <div key={s.name} className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: statusColors[s.name] ?? "#888" }} />
+                    <div
+                      className="h-2.5 w-2.5 rounded-full"
+                      style={{
+                        backgroundColor: statusColors[s.name] ?? "#888",
+                      }}
+                    />
                     <span className="text-xs capitalize">{s.name}</span>
                   </div>
-                  <Badge className="text-xs" style={{ backgroundColor: `${statusColors[s.name]}20`, color: statusColors[s.name] }}>
+                  <Badge
+                    className="text-xs"
+                    style={{
+                      backgroundColor: `${statusColors[s.name]}20`,
+                      color: statusColors[s.name],
+                    }}
+                  >
                     {s.count}
                   </Badge>
                 </div>
@@ -182,12 +254,24 @@ function AdminPanelContent() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
-              {(logStats?.byModule ?? []).slice(0, 8).map((m: any, i: number) => (
-                <div key={m.name} className="text-center p-3 rounded-lg border border-border bg-muted/20">
-                  <p className="text-xl font-bold" style={{ color: moduleColors[i] }}>{m.count}</p>
-                  <p className="text-[10px] text-muted-foreground mt-1 capitalize">{m.name}</p>
-                </div>
-              ))}
+              {(logStats?.byModule ?? [])
+                .slice(0, 8)
+                .map((m: any, i: number) => (
+                  <div
+                    key={m.name}
+                    className="text-center p-3 rounded-lg border border-border bg-muted/20"
+                  >
+                    <p
+                      className="text-xl font-bold"
+                      style={{ color: moduleColors[i] }}
+                    >
+                      {m.count}
+                    </p>
+                    <p className="text-[10px] text-muted-foreground mt-1 capitalize">
+                      {m.name}
+                    </p>
+                  </div>
+                ))}
             </div>
           </CardContent>
         </Card>
@@ -197,19 +281,28 @@ function AdminPanelContent() {
       <Tabs defaultValue="users" className="space-y-4">
         <TabsList className="bg-muted/50 border border-border">
           <TabsTrigger value="users" className="gap-2 text-xs">
-            <Users className="h-3.5 w-3.5" />Usuários
+            <Users className="h-3.5 w-3.5" />
+            Usuários
           </TabsTrigger>
           <TabsTrigger value="permissions" className="gap-2 text-xs">
-            <ShieldCheck className="h-3.5 w-3.5" />Permissões
+            <ShieldCheck className="h-3.5 w-3.5" />
+            Permissões
           </TabsTrigger>
           <TabsTrigger value="logs" className="gap-2 text-xs">
-            <Activity className="h-3.5 w-3.5" />Logs de Atividade
+            <Activity className="h-3.5 w-3.5" />
+            Logs de Atividade
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="users"><AdminUsers /></TabsContent>
-        <TabsContent value="permissions"><AdminPermissions /></TabsContent>
-        <TabsContent value="logs"><AdminLogs /></TabsContent>
+        <TabsContent value="users">
+          <AdminUsers />
+        </TabsContent>
+        <TabsContent value="permissions">
+          <AdminPermissions />
+        </TabsContent>
+        <TabsContent value="logs">
+          <AdminLogs />
+        </TabsContent>
       </Tabs>
     </div>
   );

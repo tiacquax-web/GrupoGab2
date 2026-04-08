@@ -30,7 +30,9 @@ export const costCenters = mysqlTable("cost_centers", {
   id: int("id").autoincrement().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   code: varchar("code", { length: 64 }),
-  type: mysqlEnum("type", ["obra", "servico", "administrativo", "outro"]).default("outro").notNull(),
+  type: mysqlEnum("type", ["obra", "servico", "administrativo", "outro"])
+    .default("outro")
+    .notNull(),
   description: text("description"),
   status: mysqlEnum("status", ["ativo", "inativo"]).default("ativo").notNull(),
   createdById: int("createdById"),
@@ -45,7 +47,9 @@ export const clients = mysqlTable("clients", {
   email: varchar("email", { length: 320 }),
   phone: varchar("phone", { length: 32 }),
   cpfCnpj: varchar("cpfCnpj", { length: 32 }),
-  type: mysqlEnum("type", ["pessoa_fisica", "pessoa_juridica"]).default("pessoa_fisica").notNull(),
+  type: mysqlEnum("type", ["pessoa_fisica", "pessoa_juridica"])
+    .default("pessoa_fisica")
+    .notNull(),
   address: text("address"),
   city: varchar("city", { length: 128 }),
   state: varchar("state", { length: 2 }),
@@ -67,12 +71,19 @@ export const accountsPayable = mysqlTable("accounts_payable", {
   dueDate: date("dueDate").notNull(),
   paidDate: date("paidDate"),
   paidAmount: decimal("paidAmount", { precision: 15, scale: 2 }),
-  status: mysqlEnum("status", ["a_pagar", "em_aberto", "pago", "cancelado"]).default("a_pagar").notNull(),
+  status: mysqlEnum("status", ["a_pagar", "em_aberto", "pago", "cancelado"])
+    .default("a_pagar")
+    .notNull(),
   category: varchar("category", { length: 128 }),
   costCenterId: int("costCenterId"),
   // Recurrence
   isRecurring: boolean("isRecurring").default(false).notNull(),
-  recurrenceType: mysqlEnum("recurrenceType", ["diario", "semanal", "mensal", "anual"]),
+  recurrenceType: mysqlEnum("recurrenceType", [
+    "diario",
+    "semanal",
+    "mensal",
+    "anual",
+  ]),
   recurrenceEndDate: date("recurrenceEndDate"),
   parentId: int("parentId"),
   // Installments
@@ -99,11 +110,23 @@ export const accountsReceivable = mysqlTable("accounts_receivable", {
   dueDate: date("dueDate").notNull(),
   receivedDate: date("receivedDate"),
   receivedAmount: decimal("receivedAmount", { precision: 15, scale: 2 }),
-  status: mysqlEnum("status", ["a_receber", "em_aberto", "recebido", "cancelado"]).default("a_receber").notNull(),
+  status: mysqlEnum("status", [
+    "a_receber",
+    "em_aberto",
+    "recebido",
+    "cancelado",
+  ])
+    .default("a_receber")
+    .notNull(),
   category: varchar("category", { length: 128 }),
   costCenterId: int("costCenterId"),
   isRecurring: boolean("isRecurring").default(false).notNull(),
-  recurrenceType: mysqlEnum("recurrenceType", ["diario", "semanal", "mensal", "anual"]),
+  recurrenceType: mysqlEnum("recurrenceType", [
+    "diario",
+    "semanal",
+    "mensal",
+    "anual",
+  ]),
   recurrenceEndDate: date("recurrenceEndDate"),
   parentId: int("parentId"),
   isInstallment: boolean("isInstallment").default(false).notNull(),
@@ -132,7 +155,15 @@ export const purchaseOrders = mysqlTable("purchase_orders", {
   sector: varchar("sector", { length: 128 }),
   costCenterId: int("costCenterId"),
   totalAmount: decimal("totalAmount", { precision: 15, scale: 2 }),
-  status: mysqlEnum("status", ["rascunho", "pendente", "aprovado", "recebido", "cancelado"]).default("pendente").notNull(),
+  status: mysqlEnum("status", [
+    "rascunho",
+    "pendente",
+    "aprovado",
+    "recebido",
+    "cancelado",
+  ])
+    .default("pendente")
+    .notNull(),
   requestedDate: date("requestedDate"),
   expectedDate: date("expectedDate"),
   receivedDate: date("receivedDate"),
@@ -160,14 +191,18 @@ export const crmLeads = mysqlTable("crm_leads", {
     "negociacao",
     "fechado_ganho",
     "fechado_perdido",
-  ]).default("novo").notNull(),
+  ])
+    .default("novo")
+    .notNull(),
   value: decimal("value", { precision: 15, scale: 2 }),
   source: varchar("source", { length: 128 }),
   assignedToId: int("assignedToId"),
   assignedToName: varchar("assignedToName", { length: 255 }),
   nextFollowUp: date("nextFollowUp"),
   notes: text("notes"),
-  priority: mysqlEnum("priority", ["baixa", "media", "alta"]).default("media").notNull(),
+  priority: mysqlEnum("priority", ["baixa", "media", "alta"])
+    .default("media")
+    .notNull(),
   createdById: int("createdById"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
@@ -177,7 +212,14 @@ export const crmLeads = mysqlTable("crm_leads", {
 export const crmActivities = mysqlTable("crm_activities", {
   id: int("id").autoincrement().primaryKey(),
   leadId: int("leadId").notNull(),
-  type: mysqlEnum("type", ["ligacao", "email", "reuniao", "visita", "whatsapp", "outro"]).notNull(),
+  type: mysqlEnum("type", [
+    "ligacao",
+    "email",
+    "reuniao",
+    "visita",
+    "whatsapp",
+    "outro",
+  ]).notNull(),
   description: text("description"),
   outcome: text("outcome"),
   scheduledAt: timestamp("scheduledAt"),
@@ -224,8 +266,12 @@ export const agendaEvents = mysqlTable("agenda_events", {
   startAt: timestamp("startAt").notNull(),
   endAt: timestamp("endAt"),
   allDay: boolean("allDay").default(false).notNull(),
-  type: mysqlEnum("type", ["reuniao", "visita", "ligacao", "prazo", "outro"]).default("outro").notNull(),
-  status: mysqlEnum("status", ["agendado", "realizado", "cancelado"]).default("agendado").notNull(),
+  type: mysqlEnum("type", ["reuniao", "visita", "ligacao", "prazo", "outro"])
+    .default("outro")
+    .notNull(),
+  status: mysqlEnum("status", ["agendado", "realizado", "cancelado"])
+    .default("agendado")
+    .notNull(),
   userId: int("userId").notNull(),
   relatedLeadId: int("relatedLeadId"),
   relatedProjectId: int("relatedProjectId"),
@@ -241,8 +287,18 @@ export const projects = mysqlTable("projects", {
   clientId: int("clientId"),
   clientName: varchar("clientName", { length: 255 }),
   costCenterId: int("costCenterId"),
-  status: mysqlEnum("status", ["planejamento", "em_andamento", "pausado", "concluido", "cancelado"]).default("planejamento").notNull(),
-  priority: mysqlEnum("priority", ["baixa", "media", "alta", "urgente"]).default("media").notNull(),
+  status: mysqlEnum("status", [
+    "planejamento",
+    "em_andamento",
+    "pausado",
+    "concluido",
+    "cancelado",
+  ])
+    .default("planejamento")
+    .notNull(),
+  priority: mysqlEnum("priority", ["baixa", "media", "alta", "urgente"])
+    .default("media")
+    .notNull(),
   startDate: date("startDate"),
   endDate: date("endDate"),
   budget: decimal("budget", { precision: 15, scale: 2 }),
@@ -261,8 +317,17 @@ export const projectTasks = mysqlTable("project_tasks", {
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
   phase: varchar("phase", { length: 128 }),
-  status: mysqlEnum("status", ["backlog", "em_andamento", "revisao", "concluido"]).default("backlog").notNull(),
-  priority: mysqlEnum("priority", ["baixa", "media", "alta", "urgente"]).default("media").notNull(),
+  status: mysqlEnum("status", [
+    "backlog",
+    "em_andamento",
+    "revisao",
+    "concluido",
+  ])
+    .default("backlog")
+    .notNull(),
+  priority: mysqlEnum("priority", ["baixa", "media", "alta", "urgente"])
+    .default("media")
+    .notNull(),
   assignedToId: int("assignedToId"),
   assignedToName: varchar("assignedToName", { length: 255 }),
   dueDate: date("dueDate"),
@@ -286,7 +351,16 @@ export const documents = mysqlTable("documents", {
   fileSize: int("fileSize"),
   category: varchar("category", { length: 128 }),
   // Relations
-  relatedType: mysqlEnum("relatedType", ["cliente", "projeto", "ordem_compra", "conta_pagar", "conta_receber", "geral"]).default("geral").notNull(),
+  relatedType: mysqlEnum("relatedType", [
+    "cliente",
+    "projeto",
+    "ordem_compra",
+    "conta_pagar",
+    "conta_receber",
+    "geral",
+  ])
+    .default("geral")
+    .notNull(),
   relatedId: int("relatedId"),
   relatedName: varchar("relatedName", { length: 255 }),
   uploadedById: int("uploadedById"),
@@ -307,7 +381,9 @@ export const activityLogs = mysqlTable("activity_logs", {
   entityId: int("entityId"),
   ipAddress: varchar("ipAddress", { length: 64 }),
   userAgent: varchar("userAgent", { length: 512 }),
-  status: mysqlEnum("status", ["success", "error", "warning"]).default("success").notNull(),
+  status: mysqlEnum("status", ["success", "error", "warning"])
+    .default("success")
+    .notNull(),
   metadata: text("metadata"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });

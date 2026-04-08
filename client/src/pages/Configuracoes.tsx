@@ -4,7 +4,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Bell, Building2, Palette, Save, ShieldCheck, User } from "lucide-react";
+import {
+  Bell,
+  Building2,
+  Palette,
+  Save,
+  ShieldCheck,
+  User,
+} from "lucide-react";
 import { toast } from "sonner";
 
 export default function Configuracoes() {
@@ -142,7 +149,9 @@ export default function Configuracoes() {
           >
             Tema corporativo claro
           </Button>
-          <Button onClick={() => toast.success("Preferências salvas com sucesso.")}>
+          <Button
+            onClick={() => toast.success("Preferências salvas com sucesso.")}
+          >
             <Save className="h-4 w-4" />
             Salvar preferências
           </Button>

@@ -8,7 +8,9 @@ vi.mock("./db", () => ({
 }));
 
 // ─── Context helpers ─────────────────────────────────────────────────────────
-function makeAdminCtx(overrides: Partial<TrpcContext["user"]> = {}): TrpcContext {
+function makeAdminCtx(
+  overrides: Partial<TrpcContext["user"]> = {}
+): TrpcContext {
   return {
     user: {
       id: 1,
@@ -49,22 +51,30 @@ function makeUserCtx(): TrpcContext {
 describe("admin router - access control", () => {
   it("should deny access to non-admin users on stats", async () => {
     const caller = appRouter.createCaller(makeUserCtx());
-    await expect(caller.admin.stats()).rejects.toThrow("Acesso restrito a administradores.");
+    await expect(caller.admin.stats()).rejects.toThrow(
+      "Acesso restrito a administradores."
+    );
   });
 
   it("should deny access to non-admin users on listUsers", async () => {
     const caller = appRouter.createCaller(makeUserCtx());
-    await expect(caller.admin.listUsers()).rejects.toThrow("Acesso restrito a administradores.");
+    await expect(caller.admin.listUsers()).rejects.toThrow(
+      "Acesso restrito a administradores."
+    );
   });
 
   it("should deny access to non-admin users on listLogs", async () => {
     const caller = appRouter.createCaller(makeUserCtx());
-    await expect(caller.admin.listLogs()).rejects.toThrow("Acesso restrito a administradores.");
+    await expect(caller.admin.listLogs()).rejects.toThrow(
+      "Acesso restrito a administradores."
+    );
   });
 
   it("should deny access to non-admin users on logStats", async () => {
     const caller = appRouter.createCaller(makeUserCtx());
-    await expect(caller.admin.logStats()).rejects.toThrow("Acesso restrito a administradores.");
+    await expect(caller.admin.logStats()).rejects.toThrow(
+      "Acesso restrito a administradores."
+    );
   });
 });
 
@@ -119,9 +129,9 @@ describe("admin router - updateUserRole validation", () => {
 describe("admin router - deleteUser validation", () => {
   it("should reject when admin tries to delete their own account", async () => {
     const caller = appRouter.createCaller(makeAdminCtx({ id: 1 }));
-    await expect(
-      caller.admin.deleteUser({ userId: 1 })
-    ).rejects.toThrow("Você não pode excluir sua própria conta.");
+    await expect(caller.admin.deleteUser({ userId: 1 })).rejects.toThrow(
+      "Você não pode excluir sua própria conta."
+    );
   });
 });
 
@@ -134,7 +144,11 @@ describe("admin router - writeLog (protected procedure)", () => {
     };
     const caller = appRouter.createCaller(unauthCtx);
     await expect(
-      caller.admin.writeLog({ action: "TEST", module: "test", status: "success" })
+      caller.admin.writeLog({
+        action: "TEST",
+        module: "test",
+        status: "success",
+      })
     ).rejects.toThrow();
   });
 });

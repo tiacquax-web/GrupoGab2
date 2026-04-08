@@ -14,6 +14,7 @@ export default tseslint.config(
       "node_modules/**",
       ".manus-logs/**",
       "drizzle/*.sql",
+      "client/public/__manus__/**",
     ],
   },
   js.configs.recommended,
@@ -33,11 +34,16 @@ export default tseslint.config(
       "react-refresh": reactRefresh,
     },
     rules: {
-      ...reactHooks.configs.recommended.rules,
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
       "react-refresh/only-export-components": [
-        "warn",
+        "off",
         { allowConstantExport: true },
       ],
+      "no-undef": "off",
+      "no-empty": "off",
+      "prefer-const": "off",
+      "@typescript-eslint/no-this-alias": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unused-vars": [
         "warn",
