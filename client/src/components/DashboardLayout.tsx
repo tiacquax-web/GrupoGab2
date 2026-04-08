@@ -24,7 +24,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { getLoginUrl } from "@/const";
+import { FORGOT_PASSWORD_PATH, LOGIN_PATH } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
 import {
   BarChart3,
@@ -125,8 +125,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-background">
-        <div className="flex flex-col items-center gap-8 p-8 max-w-md w-full">
+      <div className="flex min-h-screen items-center justify-center bg-background p-4">
+        <div className="w-full max-w-md space-y-5 rounded-2xl border border-border/80 bg-card/80 p-8 shadow-xl">
           <div className="flex flex-col items-center gap-4">
             <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20">
               <Building2 className="w-8 h-8 text-primary" />
@@ -136,19 +136,27 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <p className="text-sm text-muted-foreground mt-1">Sistema de Gestão Operacional</p>
             </div>
           </div>
-          <div className="w-full p-6 rounded-xl border bg-card">
-            <h2 className="text-lg font-semibold mb-1">Acesso Restrito</h2>
-            <p className="text-sm text-muted-foreground mb-5">
-              Faça login para acessar o sistema de gestão.
-            </p>
-            <Button
-              onClick={() => { window.location.href = getLoginUrl(); }}
-              size="lg"
-              className="w-full"
-            >
-              Entrar no Sistema
-            </Button>
-          </div>
+          <p className="text-center text-sm text-muted-foreground">
+            Faça login para acessar o ambiente corporativo.
+          </p>
+          <Button
+            onClick={() => {
+              window.location.href = LOGIN_PATH;
+            }}
+            size="lg"
+            className="w-full"
+          >
+            Ir para login
+          </Button>
+          <button
+            type="button"
+            className="w-full text-center text-sm text-primary hover:underline"
+            onClick={() => {
+              window.location.href = FORGOT_PASSWORD_PATH;
+            }}
+          >
+            Esqueci minha senha
+          </button>
         </div>
       </div>
     );

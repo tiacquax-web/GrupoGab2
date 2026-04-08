@@ -5,6 +5,8 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import DashboardLayout from "./components/DashboardLayout";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import ForgotPassword from "./pages/ForgotPassword";
+import Login from "./pages/Login";
 
 // Pages
 import Dashboard from "./pages/Dashboard";
@@ -21,8 +23,9 @@ import ProjetosKanban from "./pages/ProjetosKanban";
 import Documentos from "./pages/Documentos";
 import Relatorios from "./pages/Relatorios";
 import AdminPanel from "./pages/admin/AdminPanel";
+import Configuracoes from "./pages/Configuracoes";
 
-function AppRoutes() {
+function ProtectedRoutes() {
   return (
     <DashboardLayout>
       <Switch>
@@ -39,11 +42,22 @@ function AppRoutes() {
         <Route path="/projetos/kanban" component={ProjetosKanban} />
         <Route path="/documentos" component={Documentos} />
         <Route path="/relatorios" component={Relatorios} />
+        <Route path="/configuracoes" component={Configuracoes} />
         <Route path="/admin" component={AdminPanel} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
     </DashboardLayout>
+  );
+}
+
+function AppRoutes() {
+  return (
+    <Switch>
+      <Route path="/login" component={Login} />
+      <Route path="/esqueci-senha" component={ForgotPassword} />
+      <Route component={ProtectedRoutes} />
+    </Switch>
   );
 }
 
