@@ -262,8 +262,7 @@ h1, h2, h3, h4 {
 .hero-bg img {
   width: 100%; height: 100%;
   object-fit: cover;
-  object-position: 70% 35%;
-  transform: scaleX(-1);
+  object-position: 50% 20%;
 }
 .hero-bg::after {
   content: "";
@@ -759,7 +758,7 @@ h1, h2, h3, h4 {
 @media (max-width: 900px) {
   .empresas-grid { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 620px) {
+@media (max-width: 560px) {
   .empresas-grid { grid-template-columns: 1fr; }
 }
 
